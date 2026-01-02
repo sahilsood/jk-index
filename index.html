@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JK Jewellers</title>
+    
+    <link rel="icon" type="image/png" href="images/logo.png?v=2">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'jk-gold': '#D4AF37',
+                        'jk-dark': '#1a1a1a',
+                        'jk-gray': '#f4f4f4',
+                        'whatsapp': '#25D366',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Animation for fading between pages */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Video Styles */
+        .swiper-slide-video {
+            aspect-ratio: 9/16; 
+            width: 100%;
+            border-radius: 8px; 
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .whatsapp-btn {
+            animation: pulse-shadow 2s infinite;
+        }
+        @keyframes pulse-shadow {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        
+        .hero-overlay { background: rgba(0, 0, 0, 0.4); }
+        
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+    </style>
+</head>
+<body class="font-sans text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0" nonce="A1b2C3d4"></script>
+
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-md z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24 items-center"> <div class="flex-shrink-0 flex items-center">
+                    <a href="javascript:void(0)" onclick="navigateTo('home')" class="flex items-center gap-4 group">
+                        <img src="images/logo.png" alt="JK Jewellers Logo" class="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                        <div class="flex flex-col">
+                            <span class="font-serif text-2xl md:text-3xl font-bold text-jk-dark tracking-widest leading-none">JEWELLERS</span>
+                            <span class="text-sm text-jk-gold tracking-[0.3em] uppercase leading-none mt-2 font-medium">Sirhind</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="navigateTo('home')" id="nav-home" class="nav-link text-jk-gold font-medium border-b-2 border-jk-gold transition-colors">Home</button>
+                    <button onclick="navigateTo('about')" id="nav-about" class="nav-link text-jk-dark hover:text-jk-gold font-medium transition-colors border-b-2 border-transparent">Our Story</button>
+                    <button onclick="navigateTo('contact')" id="nav-contact" class="px-6 py-2 border border-jk-gold text-jk-gold hover:bg-jk-gold hover:text-white transition-all duration-300 font-serif tracking-wide">Contact Us</button>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-jk-dark hover:text-jk-gold focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <button onclick="navigateTo('home')" class="block w-full px-3 py-2 text-jk-gold font-medium">Home</button>
+                <button onclick="navigateTo('about')" class="block w-full px-3 py-2 text-jk-dark hover:text-jk-gold font-medium">Our Story</button>
+                <button onclick="navigateTo('contact')" class="block w-full px-3 py-2 text-jk-gold font-serif font-bold">Contact Us</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-24"> <div id="view-home" class="page-view fade-in">
+            <div class="relative h-[calc(100vh-96px)] w-full">
+                <div class="swiper heroSwiper h-full">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide relative" style="background-image: url('https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2031&auto=format&fit=crop');">
+                            <div class="absolute inset-0 hero-overlay flex items-center justify-center">
+                                <div class="text-center text-white px-4">
+                                    <h1 class="font-serif text-5xl md:text-7xl font-bold mb-4 tracking-wide">Diamond Perfection</h1>
+                                    <p class="text-lg md:text-xl font-light tracking-wider uppercase mb-8">Uncompromising Quality & Clarity</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide relative" style="background-image: url('https://images.unsplash.com/photo-1717409014701-8e630ff057f3?q=80&w=2070&auto=format&fit=crop');">
+                            <div class="absolute inset-0 hero-overlay flex items-center justify-center">
+                                <div class="text-center text-white px-4">
+                                    <h1 class="font-serif text-5xl md:text-7xl font-bold mb-4 tracking-wide">Hallmarked Purity</h1>
+                                    <p class="text-lg md:text-xl font-light tracking-wider uppercase mb-8">Certified Trust in Every Piece</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide relative" style="background-image: url('https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=2075&auto=format&fit=crop');">
+                            <div class="absolute inset-0 hero-overlay flex items-center justify-center">
+                                <div class="text-center text-white px-4">
+                                    <h1 class="font-serif text-5xl md:text-7xl font-bold mb-4 tracking-wide">Heritage of Gold</h1>
+                                    <p class="text-lg md:text-xl font-light tracking-wider uppercase mb-8">Crafting legacy since 1992</p>
+                                    <button onclick="navigateTo('contact')" class="bg-jk-gold text-white px-8 py-3 font-serif hover:bg-white hover:text-jk-gold transition-all duration-300">Visit Showroom</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next text-white"></div>
+                    <div class="swiper-button-prev text-white"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <section class="py-20 bg-white">
+                <div class="max-w-[1920px] mx-auto px-4 md:px-12"> 
+                    <div class="text-center mb-10">
+                        <p class="text-gray-500 uppercase tracking-widest text-sm mb-2">Behind The Scenes & Style Inspiration</p>
+                        <h2 class="font-serif text-4xl text-jk-dark font-bold relative inline-block">Featured Designs<span class="block w-20 h-1 bg-jk-gold mx-auto mt-4"></span></h2>
+                    </div>
+                    <div class="swiper videoSwiper pb-12">
+                        <div class="swiper-wrapper" id="video-wrapper"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <div class="text-center">
+                        <a href="https://www.instagram.com/jkjewellers1992/" target="_blank" class="inline-flex items-center px-8 py-3 bg-jk-gold text-white font-serif hover:bg-jk-dark transition-all duration-300 rounded-sm shadow-md">
+                            <i class="fa-brands fa-instagram mr-2"></i> Follow on Instagram
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-20 bg-jk-gray">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="text-center mb-8">
+                                <h2 class="font-serif text-3xl text-jk-dark font-bold">Join Our Community</h2>
+                                <div class="h-1 w-16 bg-jk-gold mx-auto mt-2 mb-4"></div>
+                                <p class="text-gray-500 text-sm">Follow us for the latest gold rates and offers</p>
+                            </div>
+                            
+                            <div class="w-full max-w-[500px] bg-white p-2 rounded-lg shadow-sm mb-8">
+                                <div class="fb-page" data-href="https://www.facebook.com/jkjewellerspb" data-tabs="timeline" data-width="500" data-height="500" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>
+                            </div>
+
+                            <div class="w-full max-w-[500px] grid grid-cols-2 gap-6 mt-2">
+                                <div class="bg-white p-6 rounded-lg shadow-sm text-center border border-gray-100">
+                                    <i class="fa-solid fa-certificate text-3xl text-jk-gold mb-3"></i>
+                                    <h4 class="font-serif font-bold text-jk-dark">100% Hallmarked</h4>
+                                    <p class="text-xs text-gray-500 mt-1">Guaranteed purity for your investment.</p>
+                                </div>
+                                <div class="bg-white p-6 rounded-lg shadow-sm text-center border border-gray-100">
+                                    <i class="fa-solid fa-pen-ruler text-3xl text-jk-gold mb-3"></i>
+                                    <h4 class="font-serif font-bold text-jk-dark">Custom Designs</h4>
+                                    <p class="text-xs text-gray-500 mt-1">Customize any design to be unique.</p>
+                                </div>
+                                <div class="bg-white p-6 rounded-lg shadow-sm text-center border border-gray-100">
+                                    <i class="fa-solid fa-hands-holding-circle text-3xl text-jk-gold mb-3"></i>
+                                    <h4 class="font-serif font-bold text-jk-dark">Expert Craft</h4>
+                                    <p class="text-xs text-gray-500 mt-1">Skilled artisans & blend techniques.</p>
+                                </div>
+                                <div class="bg-white p-6 rounded-lg shadow-sm text-center border border-gray-100">
+                                    <i class="fa-solid fa-users text-3xl text-jk-gold mb-3"></i>
+                                    <h4 class="font-serif font-bold text-jk-dark">1 Lakh+ Happy</h4>
+                                    <p class="text-xs text-gray-500 mt-1">A legacy of trust and elegance.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div class="text-center mb-8">
+                                <h2 class="font-serif text-3xl text-jk-dark font-bold">Visit Our Showroom</h2>
+                                <div class="h-1 w-16 bg-jk-gold mx-auto mt-2 mb-4"></div>
+                                <p class="text-gray-500 text-sm">Main Market, Old Grain Market, Sirhind</p>
+                            </div>
+                            <div class="w-full h-full min-h-[500px] bg-white p-2 rounded-lg shadow-sm">
+                                <iframe src="https://maps.google.com/maps?q=JK%20Jewellers%2C%20Main%20Market%2C%20Old%20Grain%20Market%2C%20Nawi%20Basti%2C%20Sirhind%2C%20Punjab%20140406&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0; border-radius: 4px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="view-about" class="page-view hidden fade-in bg-white">
+            <div class="py-24 bg-jk-gray">
+                <div class="max-w-4xl mx-auto px-6 text-center">
+                    <h1 class="font-serif text-5xl font-bold text-jk-dark mb-6">Our Legacy</h1>
+                    <div class="h-1 w-24 bg-jk-gold mx-auto mb-8"></div>
+                    <p class="text-xl text-gray-600 font-light leading-relaxed">
+                        Established in 1992
+                    </p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-6 py-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1626784215021-2e39ccf971cd?q=80&w=2070" class="rounded-lg shadow-2xl z-10 relative" alt="Jewelry Making">
+                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-jk-gold/20 -z-0 rounded-full"></div>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-3xl font-bold mb-6 text-jk-dark">A Tradition of Purity</h3>
+                        <div class="space-y-6 text-gray-600 leading-relaxed text-justify">
+                            <p>
+                                Our story begins in 1992 in the Main Bazar of Sirhind Mandi, when our founder <strong>Mr. Vishavjit Sood</strong> established the showroom formerly known as "JK Ornaments". It was the first showroom of its kind in the city. His vision was to give Sirhind the jewelry it deserved—pieces of uncompromising quality and craftsmanship.
+                            </p>
+                            <p>
+                                Within a few years, we expanded our collection to include Diamond jewelry. Today, we offer a complete range of designs sourced from major Indian cities like Delhi, Mumbai, Kolkata, and the South, all of which are fully <strong>HALLMARKED</strong>. We have proudly established ourselves as the leading jewelry dealer in the city.
+                            </p>
+                            <p>
+                                At JK JEWELLERS, we have been providing you with the finest gold and diamond jewels for years. Our reputation for quality and staying on the leading edge of fashion has been built on a steadfast dedication to our clients' expectations. We boast the largest inventory of Gold Jewelry in the city, offering a wide variety of designs to choose from.
+                            </p>
+                            
+                            <h4 class="font-serif text-xl font-bold text-jk-gold mt-8">Quality Assurance</h4>
+                            <p>
+                                Quality is our most integral aspect. We leave no stone unturned in our efforts to maintain consistent standards. Our diligent auditors follow strict quality control measures at all stages, ensuring that our entire range exhibits unmatched quality. We assure our clients that our products comply with international standards and are offered at affordable prices.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-contact" class="page-view hidden fade-in bg-white">
+            <div class="py-24 bg-jk-dark text-white text-center">
+                <h1 class="font-serif text-5xl font-bold mb-6">Get in Touch</h1>
+                <p class="text-gray-400">We would love to hear from you</p>
+            </div>
+            <div class="max-w-7xl mx-auto px-6 py-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white shadow-2xl rounded-xl overflow-hidden">
+                    <div class="p-10 bg-jk-gray">
+                        <h3 class="font-serif text-2xl font-bold text-jk-dark mb-8">Contact Information</h3>
+                        <div class="space-y-8">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-jk-gold shadow-sm shrink-0">
+                                    <i class="fa-solid fa-location-dot text-xl"></i>
+                                </div>
+                                <div class="ml-6">
+                                    <h4 class="font-bold text-gray-900">Visit Us</h4>
+                                    <p class="text-gray-600 mt-1">Main Market, Old Grain Market,<br>Sirhind, Punjab 140406</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-jk-gold shadow-sm shrink-0">
+                                    <i class="fa-solid fa-phone text-xl"></i>
+                                </div>
+                                <div class="ml-6">
+                                    <h4 class="font-bold text-gray-900">Call Us</h4>
+                                    <p class="text-gray-600 mt-1 flex items-center gap-2">
+                                        +91 81461 88479 <i class="fa-brands fa-whatsapp text-whatsapp"></i>
+                                    </p>
+                                    <p class="text-gray-600 mt-1 flex items-center gap-2">
+                                        +91 99143 58600 <i class="fa-brands fa-whatsapp text-whatsapp"></i>
+                                    </p>
+                                    <p class="text-sm text-gray-500 mt-1">(You can WhatsApp as well)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 h-64 w-full rounded-lg overflow-hidden shadow-sm border border-gray-200">
+                             <iframe src="https://maps.google.com/maps?q=JK%20Jewellers%2C%20Main%20Market%2C%20Old%20Grain%20Market%2C%20Nawi%20Basti%2C%20Sirhind%2C%20Punjab%20140406&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                    <div class="p-10">
+                        <h3 class="font-serif text-2xl font-bold text-jk-dark mb-6">Send a Message</h3>
+                        <form action="mailto:vishavjitsood@gmail.com" method="post" enctype="text/plain" class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                                <input type="text" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-jk-gold focus:border-transparent outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input type="tel" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-jk-gold focus:border-transparent outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                                <textarea name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-jk-gold focus:border-transparent outline-none transition-all"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-jk-gold text-white font-bold py-3 rounded-md hover:bg-jk-dark transition-colors">Send Message (via Email)</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-jk-dark text-white pt-16 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
+                        <img src="images/logo.png" alt="JK Logo" class="h-16 w-16 object-contain rounded-full bg-white p-1">
+                        <div>
+                            <h3 class="font-serif text-2xl font-bold text-jk-gold leading-none">JEWELLERS</h3>
+                            <p class="text-sm tracking-[0.2em] uppercase text-gray-400 mt-2">Sirhind</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Providing the finest gold and diamond jewels for years.</p>
+                </div>
+                <div>
+                    <h4 class="font-serif text-xl mb-6">Contact Us</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li><i class="fa-solid fa-location-dot text-jk-gold mr-3"></i> Main Market, Old Grain Market, Sirhind, Punjab 140406</li>
+                        <li><i class="fa-solid fa-phone text-jk-gold mr-3"></i> Phone: +91 81461 88479, +91 99143 58600</li>
+                        <li><i class="fa-solid fa-envelope text-jk-gold mr-3"></i> Email ID: vishavjitsood@gmail.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-serif text-xl mb-6">Links</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><button onclick="navigateTo('home')" class="hover:text-jk-gold transition-colors">Home</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-jk-gold transition-colors">About Us</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-jk-gold transition-colors">Contact</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-xs">
+                <p>© 2026 JK Jewellers. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://api.whatsapp.com/send?phone=919914358600" target="_blank" class="fixed bottom-6 right-6 z-[60] group">
+        <div class="whatsapp-btn bg-whatsapp text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300">
+            <i class="fa-brands fa-whatsapp text-4xl"></i>
+        </div>
+        <span class="absolute right-20 top-1/2 -translate-y-1/2 bg-white text-gray-800 px-3 py-1 rounded shadow-md text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">Chat with us</span>
+    </a>
+
+    <div id="video-modal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <button onclick="closeModal()" class="absolute top-5 right-5 text-white text-5xl hover:text-jk-gold z-50 focus:outline-none">×</button>
+        <div class="flex flex-col md:flex-row w-full max-w-6xl h-[85vh] bg-jk-dark rounded-sm overflow-hidden shadow-2xl scale-95 transition-transform duration-300" id="modal-card">
+            <div class="w-full md:w-[65%] bg-black flex items-center justify-center relative">
+                <video id="modal-video" controls class="w-full h-full object-contain" loop playsinline>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="w-full md:w-[35%] bg-white p-8 flex flex-col">
+                <div class="flex items-center border-b border-gray-100 pb-4 mb-4">
+                    <div class="w-12 h-12 rounded-full border-2 border-jk-gold p-0.5">
+                        <img src="images/logo.png" alt="JK Logo" class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <div class="ml-3">
+                        <p class="font-bold text-sm text-jk-dark">jkjewellers1992</p>
+                        <p class="text-xs text-gray-500">Sirhind, Punjab</p>
+                    </div>
+                    <button onclick="window.open('https://www.instagram.com/jkjewellers1992/', '_blank')" class="ml-auto text-blue-500 text-xs font-bold hover:text-blue-700">Follow</button>
+                </div>
+                <div class="flex-grow overflow-y-auto pr-2 custom-scrollbar">
+                    <p id="modal-caption" class="text-sm text-gray-700 leading-relaxed font-sans whitespace-pre-line"></p>
+                    <p class="mt-4 text-xs text-blue-900 font-medium">#jkjewellers #gold #reels #punjab</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                     <a id="modal-link" href="#" target="_blank" class="flex items-center justify-center w-full bg-jk-gold text-white py-3 font-serif hover:bg-jk-dark transition-colors duration-300 gap-2">
+                        <i class="fa-brands fa-instagram"></i> View on Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // === SINGLE PAGE NAVIGATION LOGIC ===
+        function navigateTo(viewId) {
+            // 1. Hide all views
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.add('hidden');
+            });
+
+            // 2. Show the selected view
+            const selectedView = document.getElementById('view-' + viewId);
+            if(selectedView) {
+                selectedView.classList.remove('hidden');
+                // Re-trigger animation
+                selectedView.classList.remove('fade-in');
+                void selectedView.offsetWidth; // Force reflow
+                selectedView.classList.add('fade-in');
+            }
+
+            // 3. Update Header Active State
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-jk-gold', 'border-b-2', 'border-jk-gold');
+                link.classList.add('text-jk-dark', 'border-transparent');
+            });
+            const activeLink = document.getElementById('nav-' + viewId);
+            if(activeLink) {
+                activeLink.classList.remove('text-jk-dark', 'border-transparent');
+                activeLink.classList.add('text-jk-gold', 'border-b-2', 'border-jk-gold');
+            }
+
+            // 4. Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+            if(menu && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+            }
+            
+            // 5. Scroll to top
+            window.scrollTo(0,0);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- HERO CAROUSEL ---
+            var heroSwiper = new Swiper(".heroSwiper", {
+                spaceBetween: 30,
+                effect: "fade",
+                loop: true,
+                autoplay: { delay: 4000, disableOnInteraction: false },
+                pagination: { el: ".swiper-pagination", clickable: true },
+                navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            });
+
+            // --- MOBILE MENU ---
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if(btn && menu){
+                btn.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                });
+            }
+
+            // --- VIDEO DATA ---
+            const videoPosts = [
+                { file: 'videos/vid1.mp4', caption: "Showcasing our latest bridal collection. Pure 22k Gold craftsmanship. ✨", link: "https://www.instagram.com/jkjewellers1992/" },
+                { file: 'videos/vid2.mp4', caption: "Diamond rings that steal the show. 💎 Visit us for exclusive designs.", link: "https://www.instagram.com/jkjewellers1992/" },
+                { file: 'videos/vid3.mp4', caption: "Traditional elegance meets modern style. #Gold #Jewelry", link: "https://www.instagram.com/jkjewellers1992/" },
+                { file: 'videos/vid4.mp4', caption: "Lightweight daily wear collection. Starting from 5 grams.", link: "https://www.instagram.com/jkjewellers1992/" },
+                { file: 'videos/vid5.mp4', caption: "Customized designs for your special day. Book an appointment today.", link: "https://www.instagram.com/jkjewellers1992/" },
+                { file: 'videos/vid6.mp4', caption: "The purity of Hallmarked Gold. Trust JK Jewellers.", link: "https://www.instagram.com/jkjewellers1992/" }
+            ];
+
+            // --- RENDER VIDEOS ---
+            const wrapper = document.getElementById('video-wrapper');
+            videoPosts.forEach((post, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide swiper-slide-video'; 
+                slide.innerHTML = `<div class="w-full h-full relative"><video class="w-full h-full object-cover object-center" autoplay muted loop playsinline><source src="${post.file}" type="video/mp4"></video><div class="absolute inset-0 bg-black/10 hover:bg-transparent transition-colors duration-300 pointer-events-none"></div></div>`;
+                slide.onclick = () => openModal(index);
+                wrapper.appendChild(slide);
+            });
+
+            // --- VIDEO SWIPER CONFIG (RESTORED TO 6 ITEMS) ---
+            var videoSwiper = new Swiper(".videoSwiper", {
+                observer: true, observeParents: true, spaceBetween: 20, 
+                breakpoints: { 
+                    320: { slidesPerView: 1.5, spaceBetween: 15 }, 
+                    640: { slidesPerView: 3.5, spaceBetween: 20 }, 
+                    1024: { slidesPerView: 6, spaceBetween: 20 } 
+                },
+                loop: true, pagination: { el: ".swiper-pagination", clickable: true },
+            });
+
+            // --- MODAL LOGIC ---
+            window.openModal = function(index) {
+                const modal = document.getElementById('video-modal');
+                const modalVideo = document.getElementById('modal-video');
+                const modalCaption = document.getElementById('modal-caption');
+                const modalLink = document.getElementById('modal-link');
+                const modalCard = document.getElementById('modal-card');
+                
+                const realIndex = index % videoPosts.length;
+                const post = videoPosts[realIndex]; 
+                
+                if(post) {
+                    modalVideo.src = post.file;
+                    modalCaption.textContent = post.caption;
+                    modalLink.href = post.link;
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modalCard.classList.remove('scale-95');
+                        modalCard.classList.add('scale-100');
+                        modalVideo.play(); 
+                    }, 10);
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            window.closeModal = function() {
+                const modal = document.getElementById('video-modal');
+                const modalVideo = document.getElementById('modal-video');
+                const modalCard = document.getElementById('modal-card');
+                
+                modalVideo.pause(); 
+                modal.classList.add('opacity-0');
+                modalCard.classList.remove('scale-100');
+                modalCard.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modalVideo.src = ""; 
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
+            
+            const modal = document.getElementById('video-modal');
+            if(modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) window.closeModal();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
